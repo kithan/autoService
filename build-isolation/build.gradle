@@ -1,0 +1,53 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+apply plugin: 'com.jfrog.bintray'
+
+
+dependencies {
+//    compile group: 'org.javassist', name: 'javassist', version: '3.20.0-GA'
+    compile gradleApi()
+    compile localGroovy()
+}
+
+version='1.0.0'
+// 唯一包名，比如compile 'com.yanzhenjie:andserver:1.0.1'中的com.yanzhenjie就是这里配置的。
+group = 'com.sohuott.tv.build'
+//def artifactId = 'build'
+//def debug_flag = true //true: 发布到本地maven仓库， false： 发布到maven私服
+
+task sourcesJar(type: Jar) {
+    from project.file('src/main/groovy')
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //deploy到maven仓库
+//            if (debug_flag) {
+            repository(url: uri('../repo-build')) //deploy到本地仓库
+//            } else {//deploy到maven私服中
+//                def repoKey = maven_type_snapshot ? artifactory_snapshot_repoKey : artifactory_release_repoKey
+//                repository(url: "${artifactory_contextUrl}/${repoKey}") {
+//                    authentication(userName: artifactory_user, password: artifactory_password)
+//                }
+//            }
+//            pom.groupId = group
+//            pom.artifactId = artifactId
+//            pom.version = version + (maven_type_snapshot ? '-SNAPSHOT' : '')
+//
+//            pom.project {
+//                licenses {
+//                    license {
+//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//            }
+        }
+    }
+}
